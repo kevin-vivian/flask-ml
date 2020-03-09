@@ -1,14 +1,8 @@
-# ML imports
-from sklearn.naive_bayes import MultinomialNB
-# from sklearn.naive_bayes import BernoulliNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-# from sklearn.ensemble import RandomForestClassifier
 import pickle
-import os
 from util import plot_roc
-# spacy_tok
-
+import os
 
 class NLPModel(object):
 
@@ -18,8 +12,7 @@ class NLPModel(object):
             clf: sklearn classifier model
             vectorizor: TFIDF vectorizer or similar
         """
-        self.clf = MultinomialNB()
-        # self.vectorizer = TfidfVectorizer(tokenizer=spacy_tok)
+        self.clf = LogisticRegression()
         self.vectorizer = TfidfVectorizer()
 
     def vectorizer_fit(self, X):
@@ -36,7 +29,6 @@ class NLPModel(object):
     def train(self, X, y):
         """Trains the classifier to associate the label with the sparse matrix
         """
-        # X_train, X_test, y_train, y_test = train_test_split(X, y)
         self.clf.fit(X, y)
 
     def predict_proba(self, X):
@@ -51,14 +43,14 @@ class NLPModel(object):
         y_pred = self.clf.predict(X)
         return y_pred
 
-    def pickle_vectorizer(self, path=os.getcwd()+'/TFIDFVectorizer.pkl'):
+    def pickle_vectorizer(self, path=os.getcwd()+'/models/TFIDFVectorizer.pkl'):
         """Saves the trained vectorizer for future use.
         """
         with open(path, 'wb') as f:
             pickle.dump(self.vectorizer, f)
             print("Pickled vectorizer at {}".format(path))
 
-    def pickle_clf(self, path=os.getcwd()+'/SentimentClassifier.pkl'):
+    def pickle_clf(self, path=os.getcwd()+'/models/SentimentClassifier.pkl'):
         """Saves the trained classifier for future use.
         """
         with open(path, 'wb') as f:

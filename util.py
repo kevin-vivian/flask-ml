@@ -1,18 +1,5 @@
-# import spacys
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
-
-# nlp = spacy.load('en')
-
-
-# def spacy_tok(text, lemmatize=False):
-#     doc = nlp(text)
-#     if lemmatize:
-#         tokens = [tok.lemma_ for tok in doc]
-#     else:
-#         tokens = [tok.text for tok in doc]
-#     return tokens
-
 
 def plot_roc(model, x_columns, y_true, size_x=12, size_y=12):
     """Returns a ROC plot

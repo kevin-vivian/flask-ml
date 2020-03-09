@@ -12,7 +12,7 @@ class NLPModel(object):
             clf: sklearn classifier model
             vectorizor: TFIDF vectorizer or similar
         """
-        self.clf = XGBClassifier
+        self.clf = XGBClassifier()
         self.vectorizer = TfidfVectorizer()
 
     def vectorizer_fit(self, X):

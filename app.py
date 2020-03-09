@@ -1,5 +1,5 @@
-from flask import Flask, Blueprint, request, jsonify, render_template, render_template_string
-from flask_restful import reqparse, abort, Api, Resource
+from flask import Flask, render_template, url_for, request
+from flask_restful import reqparse
 import pickle
 import numpy as np
 from model import NLPModel
@@ -7,7 +7,6 @@ import logging.config
 import os
 
 app = Flask(__name__)
-api = Api(app)
 
 # create parser
 parser = reqparse.RequestParser()
@@ -26,7 +25,11 @@ with open(vec_path, 'rb') as f:
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('home.html')
+
+@app.route('/about', methods=['GET'])
+def about():
+    return render_template('about.html')
 
 @app.route('/predict',methods=['POST'])
 def predict():
@@ -50,23 +53,7 @@ def predict():
 
     # create JSON object
     output = {'prediction': pred_text, 'confidence': confidence}
-    # return render_template('index.html', prediction_text='Printing {}'.format(uq_vectorized))
-    return render_template('index.html', prediction_text='Prediction is {}'.format(output))
-
-@app.route('/predict_api', methods=['POST'])
-def predict_api():
-    '''
-    For direct API calls trought request
-    '''
-    data = request.get_json(force=True)
-    prediction = model.predict([np.array(list(data.values()))])
-
-    output = prediction[0]
-    return jsonify(output)
-
-# Setup the Api resource routing here
-# Route the URL to the resource
-# api.add_resource(PredictSentiment, '/predict_api')
+    return render_template('home.html', prediction_text='Prediction is {} '.format(output['prediction']))
 
 if __name__ == '__main__':
     app.run(debug=True)
